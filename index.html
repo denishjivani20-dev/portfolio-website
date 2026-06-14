@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cinematic: {
+                            900: '#050505',
+                            800: '#0a0a0a',
+                            700: '#141414',
+                            accent: '#C9A961',
+                            accentHover: '#E0C078',
+                            text: '#E5E5E5',
+                            muted: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Cinzel', 'serif'],
+                        body: ['Jost', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'grain': 'grain 8s steps(10) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        grain: {
+                            '0%, 100%': { transform: 'translate(0, 0)' },
+                            '10%': { transform: 'translate(-5%, -10%)' },
+                            '20%': { transform: 'translate(-15%, 5%)' },
+                            '30%': { transform: 'translate(7%, -25%)' },
+                            '40%': { transform: 'translate(-5%, 25%)' },
+                            '50%': { transform: 'translate(-15%, 10%)' },
+                            '60%': { transform: 'translate(15%, 0%)' },
+                            '70%': { transform: 'translate(0%, 15%)' },
+                            '80%': { transform: 'translate(3%, 35%)' },
+                            '90%': { transform: 'translate(-10%, 10%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #E5E5E5;
+            cursor: none;
+        }
+        
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #C9A961;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(201, 169, 97, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body:hover .cursor-outline.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(201, 169, 97, 0.1);
+            border-color: #C9A961;
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            width: 200%;
+            height: 200vh;
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+') repeat;
+            animation: grain 8s steps(10) infinite;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.4;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-card .play-icon {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .video-card:hover .play-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .video-card .card-overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .video-card:hover .card-overlay {
+            opacity: 1;
+        }
+        .video-card img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .video-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        @media (hover: none) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-cinematic-accent selection:text-cinematic-900">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    <div class="grain-overlay"></div>
+
+    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-6 md:px-12 md:py-8 flex justify-between items-center mix-blend-difference text-cinematic-text">
+        <a href="#" class="font-display text-xl md:text-2xl font-bold tracking-widest hover-trigger">DENISH JIVANI</a>
+        <div class="hidden md:flex gap-8 text-sm tracking-widest uppercase font-medium">
+            <a href="#work" class="hover:text-cinematic-accent transition-colors duration-300 hover-trigger">Work</a>
+            <a href="#about" class="hover:text-cinematic-accent transition-colors duration-300 hover-trigger">About</a>
+            <a href="#contact" class="hover:text-cinematic-accent transition-colors duration-300 hover-trigger">Contact</a>
+        </div>
+        <button class="md:hidden text-cinematic-text hover-trigger" id="mobile-menu-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+            </svg>
+        </button>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-cinematic-900 z-30 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300">
+        <a href="#work" class="font-display text-3xl text-cinematic-text hover:text-cinematic-accent transition-colors mobile-link">Work</a>
+        <a href="#about" class="font-display text-3xl text-cinematic-text hover:text-cinematic-accent transition-colors mobile-link">About</a>
+        <a href="#contact" class="font-display text-3xl text-cinematic-text hover:text-cinematic-accent transition-colors mobile-link">Contact</a>
+    </div>
+
+    <header class="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 pt-20">
+        <div class="max-w-5xl">
+            <p class="text-cinematic-accent text-sm md:text-base tracking-[0.3em] uppercase mb-6 reveal" style="transition-delay: 100ms;">Video Editor & Visual Storyteller</p>
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] text-cinematic-text mb-8 reveal" style="transition-delay: 200ms;">
+                Crafting narratives<br>
+                <span class="text-cinematic-muted italic font-light">frame by frame.</span>
+            </h1>
+            <p class="text-cinematic-muted text-lg md:text-xl max-w-xl leading-relaxed mb-12 reveal" style="transition-delay: 300ms;">
+                Specializing in cinematic pacing, dynamic motion graphics, and color grading that elevates raw footage into compelling visual experiences.
+            </p>
+            <a href="#work" class="inline-flex items-center gap-3 px-8 py-4 border border-cinematic-accent text-cinematic-accent hover:bg-cinematic-accent hover:text-cinematic-900 transition-all duration-300 tracking-widest uppercase text-sm font-medium reveal hover-trigger" style="transition-delay: 400ms;">
+                View Selected Works
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                </svg>
+            </a>
+        </div>
+        
+        <div class="hidden lg:flex absolute bottom-8 left-12 flex-col items-center gap-2 opacity-40 reveal" style="transition-delay: 600ms;">
+    <span class="text-[10px] tracking-[0.3em] uppercase" style="writing-mode: vertical-rl; text-orientation: mixed;">Scroll</span>
+    <div class="w-px h-12 bg-gradient-to-b from-cinematic-accent to-transparent"></div>
+</div>
+    </header>
+
+    <section id="work" class="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-cinematic-800 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 reveal">
+                <div>
+                    <p class="text-cinematic-accent text-sm tracking-[0.3em] uppercase mb-4">Portfolio</p>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold text-cinematic-text">Selected Works</h2>
+                </div>
+                <p class="text-cinematic-muted max-w-md mt-6 md:mt-0 text-sm md:text-base leading-relaxed">
+                    A curated selection of commercial, narrative, and music video projects showcasing range, rhythm, and visual precision.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <article class="group video-card reveal">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden mb-6 rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/D5RpPB7pfXs" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-display text-2xl text-cinematic-text mb-2">Project One</h3>
+                            <p class="text-cinematic-muted text-sm tracking-wider uppercase">Update Title • Update Category</p>
+                        </div>
+                        <span class="text-cinematic-muted text-sm">2024</span>
+                    </div>
+                </article>
+
+                <article class="group video-card reveal md:mt-24">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden mb-6 rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/MxgrCnywmyM" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-display text-2xl text-cinematic-text mb-2">Project Two</h3>
+                            <p class="text-cinematic-muted text-sm tracking-wider uppercase">Update Title • Update Category</p>
+                        </div>
+                        <span class="text-cinematic-muted text-sm">2024</span>
+                    </div>
+                </article>
+
+                <article class="group video-card reveal">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden mb-6 rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/lxkQQf2FwU4" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-display text-2xl text-cinematic-text mb-2">Project Three</h3>
+                            <p class="text-cinematic-muted text-sm tracking-wider uppercase">Update Title • Update Category</p>
+                        </div>
+                        <span class="text-cinematic-muted text-sm">2024</span>
+                    </div>
+                </article>
+
+                <article class="group video-card reveal md:mt-24">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden mb-6 rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/P8oiJoILgnY" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-display text-2xl text-cinematic-text mb-2">Project Four</h3>
+                            <p class="text-cinematic-muted text-sm tracking-wider uppercase">Update Title • Update Category</p>
+                        </div>
+                        <span class="text-cinematic-muted text-sm">2024</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 md:py-32 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-cinematic-800/30 to-transparent pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center relative z-10">
+            <div class="lg:col-span-5 reveal">
+                <div class="relative aspect-[3/4] bg-cinematic-700 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop" alt="Editor at work" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 border border-cinematic-accent/20 m-4"></div>
+                </div>
+            </div>
+            <div class="lg:col-span-7 reveal" style="transition-delay: 200ms;">
+                <p class="text-cinematic-accent text-sm tracking-[0.3em] uppercase mb-6">About Me</p>
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-cinematic-text mb-8 leading-tight">
+                    Editing is not just cutting.<br>
+                    <span class="text-cinematic-muted italic font-light">It's sculpting time.</span>
+                </h2>
+                <div class="space-y-6 text-cinematic-muted text-lg leading-relaxed">
+                    <p>
+                        I am a freelance video editor transforming raw footage into compelling visual narratives. My work spans across music videos, commercial campaigns, and independent short films.
+                    </p>
+                    <p>
+                        I believe that the rhythm of a cut and the emotion of a color grade are just as important as the story being told. I work closely with directors and creators to ensure the final product not only meets but exceeds their creative vision.
+                    </p>
+                </div>
+                
+                <div class="mt-12 border-t border-cinematic-700 pt-8 flex justify-center text-center">
+    <div>
+        <h4 class="font-display text-4xl md:text-5xl text-cinematic-accent mb-2">100%</h4>
+        <p class="text-sm md:text-base text-cinematic-muted uppercase tracking-widest font-medium">Passion Driven</p>
+    </div>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-cinematic-800 relative">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <p class="text-cinematic-accent text-sm tracking-[0.3em] uppercase mb-6">Get In Touch</p>
+            <h2 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-cinematic-text mb-8">
+                Let's create something<br>
+                <span class="italic font-light text-cinematic-muted">unforgettable together.</span>
+            </h2>
+            <p class="text-cinematic-muted text-lg mb-12 max-w-xl mx-auto">
+                Currently available for freelance projects and collaborations. Reach out to discuss your next video production.
+            </p>
+            <a href="mailto:denishjivani20@gmail.com" class="inline-flex items-center gap-4 px-10 py-5 bg-cinematic-accent text-cinematic-900 hover:bg-cinematic-accentHover transition-all duration-300 tracking-widest uppercase text-sm font-bold hover-trigger group">
+                <span>Start a Conversation</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 group-hover:translate-x-1 transition-transform">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-12 px-6 md:px-12 lg:px-24 border-t border-cinematic-700 flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="font-display text-lg text-cinematic-text">-DENISH-</p>
+        <p class="text-cinematic-muted text-sm">© 2026 All Rights Reserved. Crafted with precision.</p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                cursorOutline.classList.add('hovered');
+            });
+            trigger.addEventListener('mouseleave', () => {
+                cursorOutline.classList.remove('hovered');
+            });
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        mobileMenuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            });
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"75124c326cb447fe934cde04713ae013","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

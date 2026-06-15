@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Works - Video Editor Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cinematic: {
+                            900: '#050505',
+                            800: '#0a0a0a',
+                            700: '#141414',
+                            accent: '#C9A961',
+                            accentHover: '#E0C078',
+                            text: '#E5E5E5',
+                            muted: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Cinzel', 'serif'],
+                        body: ['Jost', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'grain': 'grain 8s steps(10) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        grain: {
+                            '0%, 100%': { transform: 'translate(0, 0)' },
+                            '10%': { transform: 'translate(-5%, -10%)' },
+                            '20%': { transform: 'translate(-15%, 5%)' },
+                            '30%': { transform: 'translate(7%, -25%)' },
+                            '40%': { transform: 'translate(-5%, 25%)' },
+                            '50%': { transform: 'translate(-15%, 10%)' },
+                            '60%': { transform: 'translate(15%, 0%)' },
+                            '70%': { transform: 'translate(0%, 15%)' },
+                            '80%': { transform: 'translate(3%, 35%)' },
+                            '90%': { transform: 'translate(-10%, 10%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #E5E5E5;
+            cursor: none;
+        }
+        
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #C9A961;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(201, 169, 97, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body:hover .cursor-outline.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(201, 169, 97, 0.1);
+            border-color: #C9A961;
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            width: 200%;
+            height: 200vh;
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+') repeat;
+            animation: grain 8s steps(10) infinite;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.4;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-card iframe {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .video-card:hover iframe {
+            transform: scale(1.02);
+        }
+        
+        @media (hover: none) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-cinematic-accent selection:text-cinematic-900">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    <div class="grain-overlay"></div>
+
+    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-6 md:px-12 md:py-8 flex justify-between items-center mix-blend-difference text-cinematic-text bg-cinematic-900/80 backdrop-blur-sm">
+        <a href="index.html" class="font-display text-xl md:text-2xl font-bold tracking-widest hover-trigger">DENISH JIVANI</a>
+        <a href="index.html#work" class="text-sm tracking-widest uppercase font-medium hover:text-cinematic-accent transition-colors duration-300 hover-trigger flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+
+    <header class="relative pt-32 pb-16 md:pt-40 md:pb-24 px-6 md:px-12 lg:px-24">
+        <div class="max-w-7xl mx-auto text-center reveal">
+            <p class="text-cinematic-accent text-sm md:text-base tracking-[0.3em] uppercase mb-6">Complete Archive</p>
+            <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[0.9] text-cinematic-text mb-8">
+                All Edited Works
+            </h1>
+            <p class="text-cinematic-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                A comprehensive collage of every project, cut, and color grade. Explore the full breadth of my editing journey.
+            </p>
+        </div>
+    </header>
+
+    <section class="py-12 px-6 md:px-12 lg:px-24 bg-cinematic-800 relative min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <!-- Collage Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                
+                <!-- Video 1: 16:9 Wide -->
+                <article class="group video-card reveal md:col-span-2">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/WLhuxVWIPaM" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">16:9 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 5: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/lRo0htf_F2Y" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 6: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/jWPI4gGtxUI" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 2: 16:9 Wide -->
+                <article class="group video-card reveal md:col-span-2">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/AulN8CDxTNk" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">16:9 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 7: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/A6CpfZeOoBI" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 8: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/zGfs-B46y5g" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 3: 16:9 Wide -->
+                <article class="group video-card reveal md:col-span-2">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/aIbLQqwjIDg" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">16:9 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 9: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/wh4flFuaYuU" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 10: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/X-mUEywX3iQ" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 4: 16:9 Wide -->
+                <article class="group video-card reveal md:col-span-2">
+                    <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/EdwJMPu6U00" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">16:9 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 11: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/zU3SoEKiQmc" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 12: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/ktDII2zgxmc" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 13: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/TCdRpjbUVZo" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 14: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/zt0o_AwFasg" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 15: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/B4Z4YWxLd2I" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+                <!-- Video 16: 9:16 Tall -->
+                <article class="group video-card reveal row-span-2">
+                    <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
+                        <iframe src="https://www.youtube.com/embed/Mpk3LJt32r4" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
+                        <p class="text-cinematic-muted text-xs tracking-wider uppercase">9:16 Format</p>
+                    </div>
+                </article>
+
+            </div>
+            
+            <div class="mt-16 text-center reveal">
+                <a href="index.html#contact" class="inline-flex items-center gap-3 px-8 py-4 border border-cinematic-accent text-cinematic-accent hover:bg-cinematic-accent hover:text-cinematic-900 transition-all duration-300 tracking-widest uppercase text-sm font-medium hover-trigger">
+                    Let's Work Together
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 px-6 md:px-12 lg:px-24 border-t border-cinematic-700 flex flex-col md:flex-row justify-between items-center gap-6 bg-cinematic-900">
+        <p class="font-display text-lg text-cinematic-text">-DENISH-</p>
+        <p class="text-cinematic-muted text-sm">© 2026 All Rights Reserved. Crafted with precision.</p>
+    </footer>
+
+    <script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                cursorOutline.classList.add('hovered');
+            });
+            trigger.addEventListener('mouseleave', () => {
+                cursorOutline.classList.remove('hovered');
+            });
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

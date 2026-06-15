@@ -113,10 +113,10 @@
             transform: translateY(0);
         }
 
-        .video-card iframe {
+        .video-card video {
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .video-card:hover iframe {
+        .video-card:hover video {
             transform: scale(1.02);
         }
         
@@ -156,13 +156,11 @@
 
     <section class="py-12 px-6 md:px-12 lg:px-24 bg-cinematic-800 relative min-h-screen">
         <div class="max-w-7xl mx-auto">
-            <!-- Collage Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 
-                <!-- Video 1: 16:9 Wide -->
                 <article class="group video-card reveal md:col-span-2">
                     <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/WLhuxVWIPaM" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="wide1.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
@@ -170,10 +168,9 @@
                     </div>
                 </article>
 
-                <!-- Video 5: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/lRo0htf_F2Y" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="sam-sulek.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -181,10 +178,9 @@
                     </div>
                 </article>
 
-                <!-- Video 6: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/jWPI4gGtxUI" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall2.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -192,10 +188,9 @@
                     </div>
                 </article>
 
-                <!-- Video 2: 16:9 Wide -->
                 <article class="group video-card reveal md:col-span-2">
                     <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/AulN8CDxTNk" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="wide2.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
@@ -203,10 +198,9 @@
                     </div>
                 </article>
 
-                <!-- Video 7: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/A6CpfZeOoBI" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall3.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -214,10 +208,9 @@
                     </div>
                 </article>
 
-                <!-- Video 8: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/zGfs-B46y5g" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall4.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -225,10 +218,9 @@
                     </div>
                 </article>
 
-                <!-- Video 3: 16:9 Wide -->
                 <article class="group video-card reveal md:col-span-2">
                     <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/aIbLQqwjIDg" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="wide3.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
@@ -236,10 +228,9 @@
                     </div>
                 </article>
 
-                <!-- Video 9: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/wh4flFuaYuU" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall5.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -247,10 +238,9 @@
                     </div>
                 </article>
 
-                <!-- Video 10: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/X-mUEywX3iQ" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall6.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -258,10 +248,9 @@
                     </div>
                 </article>
 
-                <!-- Video 4: 16:9 Wide -->
                 <article class="group video-card reveal md:col-span-2">
                     <div class="relative aspect-video bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/EdwJMPu6U00" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="wide4.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Project Title</h3>
@@ -269,10 +258,9 @@
                     </div>
                 </article>
 
-                <!-- Video 11: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/zU3SoEKiQmc" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall7.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -280,10 +268,9 @@
                     </div>
                 </article>
 
-                <!-- Video 12: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/ktDII2zgxmc" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall8.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -291,10 +278,9 @@
                     </div>
                 </article>
 
-                <!-- Video 13: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/TCdRpjbUVZo" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall9.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -302,10 +288,9 @@
                     </div>
                 </article>
 
-                <!-- Video 14: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/zt0o_AwFasg" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall10.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -313,10 +298,9 @@
                     </div>
                 </article>
 
-                <!-- Video 15: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/B4Z4YWxLd2I" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall11.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
@@ -324,10 +308,9 @@
                     </div>
                 </article>
 
-                <!-- Video 16: 9:16 Tall -->
                 <article class="group video-card reveal row-span-2">
                     <div class="relative aspect-[9/16] bg-cinematic-700 overflow-hidden rounded-sm border border-cinematic-700 group-hover:border-cinematic-accent/50 transition-colors duration-300">
-                        <iframe src="https://www.youtube.com/embed/Mpk3LJt32r4" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        <video src="tall12.mp4" class="w-full h-full object-cover" loop muted autoplay playsinline controls></video>
                     </div>
                     <div class="mt-3">
                         <h3 class="font-display text-lg text-cinematic-text">Shorts Title</h3>
